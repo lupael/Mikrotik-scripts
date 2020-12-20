@@ -45,9 +45,11 @@
   39="Added support for interface specific address list entries in 'ipv6-update'.";
   40="Made the certificate renewal time configurable.";
   41="Implemented migration mechanism for script updates.";
+  42="Updated Let's Encrypt trust chain.";
 };
 
 # Migration steps to be applied on script updates
 :global GlobalConfigMigration {
   41=":global SendNotification; \$SendNotification (\"Migration mechanism\") (\"Congratulations!\nSuccessfully tested the new migration mechanism.\");";
+  42=":global CertificateDownload; :local Cert [ / certificate find where fingerprint=\"0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739\" ]; :if ([ :len \$Cert ] > 0) do={ :if ([ :len [ / certificate find where fingerprint=\"730c1bdcd85f57ce5dc0bba733e5f1ba5a925b2a771d640a26f7a454224dad3b\" ] ] > 0) do={ \$CertificateDownload \"R3\"; }; / certificate remove \$Cert; }";
 };
